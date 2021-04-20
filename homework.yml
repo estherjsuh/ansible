@@ -1,0 +1,34 @@
+---
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Display IP Address
+      debug: var=ansible_all_ipv4_addresses
+
+    - name: Create temporary build directory
+      file:
+        path: coffee
+        state: directory
+
+    - name: Create 2 files and set credentials
+      file:
+        path: "coffee/{{ item }}"
+        state: touch
+        mode: "0755"
+      with_items:
+      - latte.txt
+      - espresso.txt
+
+    - name: Create zip file
+      community.general.archive:
+        path: 
+        - coffee/latte.txt
+        - coffee/espresso.txt
+        dest: coffee.zip
+        format: zip
+
+
+
+
+
