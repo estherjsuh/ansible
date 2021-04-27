@@ -1,0 +1,26 @@
+---
+
+- 
+  name: Play 2
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Create temporary build directory
+      file:
+        path: edx-theme-customers
+        state: directory
+
+    - name: Clone edx-theme-customers repo
+      ansible.builtin.git:
+        repo: https://github.com/appsembler/edx-theme-customers.git
+        dest: edx-theme-customers/
+
+    - name: Change directory into edx-theme-customers
+      command: /bin/bash -c "cd edx-theme-customers/lms && git checkout -b esther/ansible"
+
+    - name: Create Esther folder
+      command: /bin/bash -c "cd edx-theme-customers && mkdir esther"
+      tags: [ test ]
+
+
+    
